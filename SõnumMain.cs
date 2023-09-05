@@ -1,13 +1,21 @@
-﻿public class Program
+﻿using System;
+using System.Collections.Generic;
+
+public class Program
 {
     public static void Main()
     {
-        Message m1 = new Message("Hello", "John", DateTime.Now.AddDays(-10));
-        m1.ShowMessage();
-        m1.AddLike();
-        Message m2 = new Message("Hi", "Mary", DateTime.Now.AddMinutes(-1));
-        m2.ShowMessage();
-        m2.AddLike();
-        Console.WriteLine(m1.PopVsPop(m1, m2));
+        List<Message> list = new List<Message>();
+        Random rnd = new Random();
+        int MCount = rnd.Next(2, 3);
+        for (int i = 0; i < MCount; i++)
+        {
+            Message message = new Message();
+            message = message.CreateMessages();
+            list.Add(message);
+            message.ShowMessage();
+        }
+
+        Console.WriteLine(list[0].PopVsPopN(list));
     }
 }

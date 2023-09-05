@@ -5,6 +5,8 @@
     private readonly DateTime _time;
     private int _likes;
 
+    public Message() { }
+
     public Message(string content, string author, DateTime time)
     {
         this._content = content;
@@ -30,18 +32,16 @@
             return _likes;
         }
         return _likes / elapsed;
-
     }
 
     public void ShowMessage()
     {
-        Console.WriteLine("{0}/{1}\n{2}", Author, Time, Content);
-
+        Console.WriteLine("---\n{0}/{1}\n{2}\n---", Author, Time, Content);
     }
 
     public string PopVsPop(Message esimene, Message teine)
     {
-        double esimenePop=Math.Round(esimene.GetPopularity(),2);
+        double esimenePop = Math.Round(esimene.GetPopularity(), 2);
         double teinePop = Math.Round(teine.GetPopularity(), 2);
         string rezult = "";
         Console.WriteLine("{0} ja {1}", esimenePop, teinePop);
@@ -50,5 +50,38 @@
         else { rezult = "Sõnumid on võrdselt populaarsed"; }
 
         return rezult;
+    }
+
+    public string PopVsPopN(List<Message> messages)
+    {
+        double messageTop = 0;
+        string rezult = "";
+        for (int i = 0; i < messages.Count; i++)
+        {
+            if (messages[i].GetPopularity() > messageTop)
+            {
+                messageTop = messages[i].GetPopularity();
+                rezult = (messages[i].Content + " kõige populaarsem sõnum, selle kirjutanud " + messages[i].Author);
+            }
+        }
+        return rezult;
+    }
+
+    public Message CreateMessages()
+    {
+        Random rnd = new Random();
+        Console.WriteLine("Sõnum?");
+        string content = Console.ReadLine();
+        Console.WriteLine("Autor?");
+        string author = Console.ReadLine();
+        Console.WriteLine("Meeldimiste arv?");
+        int likes = int.Parse(Console.ReadLine());
+        int time = -1 * rnd.Next(0, 100);
+        Message m = new Message(content, author, DateTime.Now.AddSeconds(time));
+        for (int l = 0; l < likes; l++)
+        {
+            m.AddLike();
+        }
+        return m;
     }
 }
